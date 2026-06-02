@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clips MercadoLibre — Estrategia de Contenido</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: #2a2a2a;
+    --meli-yellow: #FFE600;
+    --meli-blue: #3483FA;
+    --accent-green: #00C48C;
+    --accent-orange: #FF6B35;
+    --text: #f0f0f0;
+    --text-muted: #888;
+    --text-dim: #555;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 80px 48px 64px;
+    max-width: 1200px;
+    margin: 0 auto;
+    z-index: 1;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--meli-yellow);
+    color: #000;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    margin-bottom: 32px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.4); opacity: 0.6; }
+  }
+
+  .hero h1 {
+    font-size: clamp(42px, 6vw, 80px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 12px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--meli-yellow);
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-top: 20px;
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  .hero-meli-stat {
+    display: flex;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 4px; }
+  .stat-num {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--meli-yellow);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .eyebrow-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+  }
+
+  .eyebrow-line {
+    flex: 0 0 40px;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .eyebrow-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .section-title {
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .section-title em {
+    font-style: normal;
+  }
+
+  /* ── MELI CLIPS CONTEXT BOX ── */
+  .context-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--meli-yellow);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 60px;
+  }
+
+  .context-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .context-card strong { color: var(--text); }
+
+  .meli-highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,230,0,0.1);
+    border: 1px solid rgba(255,230,0,0.3);
+    color: var(--meli-yellow);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-top: 12px;
+    display: inline-block;
+  }
+
+  /* ── TRACKS LAYOUT ── */
+  .tracks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 80px;
+  }
+
+  .track {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .track:hover { border-color: var(--meli-yellow); }
+
+  .track::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .track-ai::before { background: linear-gradient(90deg, var(--meli-blue), var(--accent-green)); }
+  .track-agency::before { background: linear-gradient(90deg, var(--accent-orange), var(--meli-yellow)); }
+
+  .track-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--surface2);
+    position: absolute;
+    top: 28px;
+    right: 32px;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .track-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+
+  .badge-ai { background: rgba(52,131,250,0.15); color: var(--meli-blue); border: 1px solid rgba(52,131,250,0.3); }
+  .badge-agency { background: rgba(255,107,53,0.15); color: var(--accent-orange); border: 1px solid rgba(255,107,53,0.3); }
+
+  .track h2 {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .track-desc {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 28px;
+  }
+
+  .track-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+  }
+
+  .dot-active {
+    background: var(--accent-green);
+    box-shadow: 0 0 8px var(--accent-green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .dot-dev {
+    background: var(--meli-blue);
+    box-shadow: 0 0 8px var(--meli-blue);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 24px;
+  }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    width: 20px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  .step-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .step-text strong { color: var(--text); }
+
+  /* ── BRANDS SECTION ── */
+  .brands-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--text-muted);
+    letter-spacing: -0.3px;
+  }
+
+  /* importer group */
+  .importer-group { margin-bottom: 2px; }
+
+  .importer-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-bottom: none;
+  }
+
+  .importer-name {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .importer-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+  }
+
+  .brands-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-bottom: 0;
+  }
+
+  .brand-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: none;
+    padding: 18px 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .brand-card:hover {
+    border-color: var(--meli-yellow);
+    background: var(--surface2);
+  }
+
+  .brand-name {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+
+  .brand-sub {
+    font-size: 10px;
+    color: var(--text-dim);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .brand-tag-pill {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-top: 2px;
+    width: fit-content;
+  }
+
+  .pill-done { background: rgba(0,196,140,0.15); color: var(--accent-green); border: 1px solid rgba(0,196,140,0.3); }
+
+  /* ── BENEFIT GRID ── */
+  .benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 40px;
+  }
+
+  .benefit-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+  }
+
+  .benefit-icon {
+    font-size: 24px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .benefit-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.2px;
+  }
+
+  .benefit-desc {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ── PHOTO EVIDENCE ── */
+  .evidence-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 36px;
+    margin-bottom: 60px;
+  }
+
+  .evidence-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-orange);
+    margin-bottom: 8px;
+  }
+
+  .evidence-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .evidence-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 680px;
+  }
+
+  .evidence-importer-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent-orange);
+    margin-bottom: 10px;
+  }
+
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .photo-card {
+    position: relative;
+    border-radius: 3px;
+    overflow: hidden;
+    aspect-ratio: 9/16;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+  }
+
+  .photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+  }
+
+  .photo-card:hover img { opacity: 1; }
+
+  .video-card {
+    position: relative;
+    border-radius: 3px;
+    overflow: hidden;
+    aspect-ratio: 9/16;
+    background: #000;
+    border: 1px solid var(--border);
+  }
+
+  .video-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .video-card:hover { border-color: var(--meli-yellow); }
+
+  .photo-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 14px;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 48px 60px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .footer-left {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-right {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-align: right;
+  }
+
+  /* ── HIGHLIGHT TAG ── */
+  .hl {
+    color: var(--meli-yellow);
+  }
+
+  .hl-blue { color: var(--meli-blue); }
+  .hl-green { color: var(--accent-green); }
+  .hl-orange { color: var(--accent-orange); }
+
+  @media (max-width: 860px) {
+    .hero, .section { padding-left: 24px; padding-right: 24px; }
+    .tracks { grid-template-columns: 1fr; }
+    .brands-grid { grid-template-columns: repeat(2, 1fr); }
+    .benefit-grid { grid-template-columns: 1fr 1fr; }
+    .photo-grid { grid-template-columns: 1fr; }
+    .hero-meli-stat { gap: 24px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">MercadoLibre Clips — Estrategia de contenido</div>
+  <h1>Clips para<br>el canal <em>Meli</em></h1>
+  <p class="hero-sub">
+    Desarrollamos una estrategia en dos frentes para que los vendedores del canal puedan cumplir con la nueva exigencia de MercadoLibre de incorporar video a sus publicaciones — sin excusas, sin fricción.
+  </p>
+  <div class="hero-meli-stat">
+    <div class="stat">
+      <span class="stat-num">+300%</span>
+      <span class="stat-label">Aumento de visitas con video · Argentina</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">+500%</span>
+      <span class="stat-label">Crecimiento de visitas con video · Brasil</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">17</span>
+      <span class="stat-label">Marcas filmadas · Track Agencia</span>
+    </div>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<div class="section" style="padding-bottom: 40px;">
+  <div class="context-card">
+    <p>
+      <strong>MercadoLibre Clips</strong> es la nueva herramienta de la plataforma que permite a los vendedores cargar videos cortos directamente en sus publicaciones de producto. El objetivo de Meli es que <strong>todas las publicaciones incluyan video</strong>. Los datos son contundentes: en Argentina, los productos con video generan un <strong>300% más de visitas</strong> respecto a las publicaciones sin video.
+    </p>
+    <p style="margin-top: 12px;">
+      La plataforma puso a disposición una <strong>Escuela de Videos</strong> para guiar a los vendedores, y desde septiembre de 2025 incorporó una herramienta de <strong>IA que genera guiones automáticamente</strong> analizando la ficha del producto, reseñas y preguntas frecuentes.
+    </p>
+    <span class="meli-highlight">Fuente: MercadoLibre · Datos LATAM verificados · 2023–2025</span>
+  </div>
+</div>
+
+<!-- TRACKS -->
+<div class="section">
+  <div class="section-eyebrow">
+    <span class="eyebrow-num">01</span>
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-label">Nuestra estrategia</span>
+  </div>
+  <h2 class="section-title">Dos <em class="hl">tracks</em> de producción<br>en paralelo</h2>
+
+  <div style="height: 40px;"></div>
+
+  <div class="tracks">
+
+    <!-- TRACK 1: IA -->
+    <div class="track track-ai">
+      <div class="track-num">01</div>
+      <span class="track-badge badge-ai">⚡ En desarrollo · IA</span>
+      <h2>Clips con<br>Inteligencia Artificial</h2>
+      <p class="track-desc">
+        Desarrollamos una solución basada en IA que permite generar clips de producto de forma automatizada, escalable y sin necesidad de producción física. El sistema toma la información del producto y genera contenido visual listo para cargar en Meli.
+      </p>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <span class="step-text"><strong>Input del producto</strong> — ficha técnica, imágenes, descripción y atributos</span>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <span class="step-text"><strong>Generación automática</strong> de guión y assets visuales por IA</span>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <span class="step-text"><strong>Video listo</strong> para carga directa en MercadoLibre Clips</span>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <span class="step-text"><strong>Escala infinita</strong> — cientos de SKUs sin costo marginal adicional</span>
+        </div>
+      </div>
+      <div style="height: 24px;"></div>
+      <div class="track-status">
+        <span class="status-dot dot-dev"></span>
+        EN DESARROLLO ACTIVO
+      </div>
+    </div>
+
+    <!-- TRACK 2: AGENCIA -->
+    <div class="track track-agency">
+      <div class="track-num">02</div>
+      <span class="track-badge badge-agency">🎬 Activo · Producción real</span>
+      <h2>Clips con Agencia<br>+ Producción en Campo</h2>
+      <p class="track-desc">
+        Contratamos una agencia y enviamos modelos y equipo técnico directamente a las oficinas y showrooms de las marcas líderes del mercado. Grabamos el material de producto in-situ, con setup profesional de iluminación, cámara y dirección.
+      </p>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01</span>
+          <span class="step-text"><strong>Coordinación con la marca</strong> — agendamos el shooting en sus instalaciones</span>
+        </div>
+        <div class="step">
+          <span class="step-num">02</span>
+          <span class="step-text"><strong>Equipo en campo</strong> — modelos, cámara, iluminación profesional y dirección</span>
+        </div>
+        <div class="step">
+          <span class="step-num">03</span>
+          <span class="step-text"><strong>Clips editados</strong> listos para la marca y para redistribuir a su red de retail</span>
+        </div>
+        <div class="step">
+          <span class="step-num">04</span>
+          <span class="step-text"><strong>Los retailers</strong> solo deben cargar el clip en su publicación — sin excusa para no tener video</span>
+        </div>
+      </div>
+      <div style="height: 24px;"></div>
+      <div class="track-status">
+        <span class="status-dot dot-active"></span>
+        ACTIVO — PRIMER TRACK COMPLETADO
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EVIDENCE SECTION -->
+  <div class="evidence-section">
+    <div class="evidence-label">Evidencia de producción</div>
+    <div class="evidence-title">Shootings en campo — Globalparts y Servicom</div>
+    <p class="evidence-desc">
+      Las sesiones de producción se realizaron directamente en las instalaciones de cada importador, con equipo profesional de iluminación, cámara y dirección. El material incluye fotografía y video listo para cargar en MercadoLibre Clips.
+    </p>
+
+    <!-- GLOBALPARTS BLOCK -->
+    <div class="evidence-importer-label">Globalparts — Leatt · Fox · Bell · Airoh</div>
+    <div class="media-grid">
+      <div class="photo-card">
+        <img src="foto_globalparts.jpeg" alt="Sesión de grabación en Globalparts" />
+        <div class="photo-caption">Globalparts · Estudio con modelo · Abr 2026</div>
+      </div>
+      <div class="video-card">
+        <video controls playsinline preload="metadata">
+          <source src="clip_globalparts_1.mp4" type="video/mp4">
+        </video>
+        <div class="photo-caption">Clip 01 · Globalparts · Listo para Meli</div>
+      </div>
+      <div class="video-card">
+        <video controls playsinline preload="metadata">
+          <source src="clip_globalparts_2.mp4" type="video/mp4">
+        </video>
+        <div class="photo-caption">Clip 02 · Globalparts · Listo para Meli</div>
+      </div>
+    </div>
+
+    <div style="height: 24px;"></div>
+
+    <!-- SERVICOM BLOCK -->
+    <div class="evidence-importer-label">Servicom Global — LS2 Helmets · MAC</div>
+    <div class="media-grid">
+      <div class="photo-card">
+        <img src="foto_servicom.jpeg" alt="Showroom Servicom Global - LS2" />
+        <div class="photo-caption">Servicom Global · Showroom oficial · LS2 · Olivos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRANDS FILMED -->
+  <div class="section-eyebrow">
+    <span class="eyebrow-num">02</span>
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-label">Marcas filmadas — Track Agencia</span>
+  </div>
+
+  <h2 class="section-title">Primer track:<br><em class="hl-orange">cascos y equipamiento</em></h2>
+  <p style="font-size:14px; color: var(--text-muted); margin-top: 12px; margin-bottom: 36px; line-height: 1.7; max-width: 640px;">
+    Arrancamos con el segmento de cascos y equipamiento para motociclistas — uno de los más activos en el canal Meli. Trabajamos con <strong style="color: var(--text);">7 importadores y 17 marcas</strong>. Los clips grabados son propiedad compartida: la marca los recibe para sus propias publicaciones, y nosotros los redistribuimos a todos los vendedores retail de esa marca que operan en MercadoLibre.
+  </p>
+
+  <!-- SERVICOM -->
+  <div class="importer-group">
+    <div class="importer-header">
+      <span class="importer-name">Servicom Global</span>
+      <span class="importer-count">2 marcas filmadas</span>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-card">
+        <span class="brand-name">LS2 Helmets</span>
+        <span class="brand-sub">Rep. exclusivo Argentina</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+      <div class="brand-card">
+        <span class="brand-name">MAC</span>
+        <span class="brand-sub">Marca propia · Entry level</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 12px;"></div>
+
+  <!-- WAKEFIELD -->
+  <div class="importer-group">
+    <div class="importer-header">
+      <span class="importer-name">Wakefield</span>
+      <span class="importer-count">1 marca filmada</span>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-card">
+        <span class="brand-name">HCJ</span>
+        <span class="brand-sub">Cascos certificados</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 12px;"></div>
+
+  <!-- PUNTO EXTREMO -->
+  <div class="importer-group">
+    <div class="importer-header">
+      <span class="importer-name">Punto Extremo</span>
+      <span class="importer-count">2 marcas filmadas</span>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-card">
+        <span class="brand-name">Punto Extremo</span>
+        <span class="brand-sub">Marca propia</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+      <div class="brand-card">
+        <span class="brand-name">GP23</span>
+        <span class="brand-sub">Equipamiento deportivo</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 12px;"></div>
+
+  <!-- ROPER -->
+  <div class="importer-group">
+    <div class="importer-header">
+      <span class="importer-name">Roper</span>
+      <span class="importer-count">2 marcas filmadas</span>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-card">
+        <span class="brand-name">NZI</span>
+        <span class="brand-sub">Cascos premium europeos</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+      <div class="brand-card">
+        <span class="brand-name">Fibra</span>
+        <span class="brand-sub">Equipamiento para moto</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 12px;"></div>
+
+  <!-- MT -->
+  <div class="importer-group">
+    <div class="importer-header">
+      <span class="importer-name">MT</span>
+      <span class="importer-count">2 marcas filmadas</span>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-card">
+        <span class="brand-name">MT</span>
+        <span class="brand-sub">Cascos y accesorios</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+      <div class="brand-card">
+        <span class="brand-name">Axxis</span>
+        <span class="brand-sub">Cascos y accesorios</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 12px;"></div>
+
+  <!-- EPSA -->
+  <div class="importer-group">
+    <div class="importer-header">
+      <span class="importer-name">EPSA</span>
+      <span class="importer-count">4 marcas filmadas</span>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-card">
+        <span class="brand-name">FLY</span>
+        <span class="brand-sub">Equipamiento off-road</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+      <div class="brand-card">
+        <span class="brand-name">Peels</span>
+        <span class="brand-sub">Cascos y accesorios</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+      <div class="brand-card">
+        <span class="brand-name">SMK</span>
+        <span class="brand-sub">Cascos premium</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+      <div class="brand-card">
+        <span class="brand-name">Nolan</span>
+        <span class="brand-sub">Cascos italianos</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 12px;"></div>
+
+  <!-- GLOBALPARTS -->
+  <div class="importer-group">
+    <div class="importer-header">
+      <span class="importer-name">Globalparts</span>
+      <span class="importer-count">4 marcas filmadas</span>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-card">
+        <span class="brand-name">Leatt</span>
+        <span class="brand-sub">Protección off-road</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+      <div class="brand-card">
+        <span class="brand-name">Fox</span>
+        <span class="brand-sub">Indumentaria y protección</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+      <div class="brand-card">
+        <span class="brand-name">Bell</span>
+        <span class="brand-sub">Cascos americanos</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+      <div class="brand-card">
+        <span class="brand-name">Airoh</span>
+        <span class="brand-sub">Cascos italianos</span>
+        <span class="brand-tag-pill pill-done">✓ Filmado</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-dim); margin-top: 20px; letter-spacing: 0.06em;">
+    → 7 importadores · 17 marcas filmadas en total · Segmento: cascos y equipamiento para motociclistas
+  </p>
+
+</div>
+
+<hr class="divider">
+
+<!-- BENEFITS -->
+<div class="section" style="padding-top: 0;">
+  <div class="section-eyebrow">
+    <span class="eyebrow-num">03</span>
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-label">Propuesta de valor</span>
+  </div>
+  <h2 class="section-title">¿Por qué importa<br>esta <em class="hl">estrategia</em>?</h2>
+
+  <div class="benefit-grid">
+    <div class="benefit-card">
+      <span class="benefit-icon">📈</span>
+      <div class="benefit-title">Ventaja competitiva real</div>
+      <p class="benefit-desc">Los vendedores con video en sus publicaciones multiplican por 3 las visitas en Argentina según datos propios de MercadoLibre. Quien no tiene video, pierde visibilidad frente a quien sí.</p>
+    </div>
+    <div class="benefit-card">
+      <span class="benefit-icon">🎬</span>
+      <div class="benefit-title">Sin excusa para el retail</div>
+      <p class="benefit-desc">El distribuidor retail ya no necesita producir nada. El clip está hecho, está listo y lo único que tiene que hacer es cargarlo en su publicación. La barrera de entrada desaparece.</p>
+    </div>
+    <div class="benefit-card">
+      <span class="benefit-icon">🤝</span>
+      <div class="benefit-title">Beneficio bilateral</div>
+      <p class="benefit-desc">La marca recibe material profesional de sus productos sin costo ni logística propia. Nosotros redistribuimos ese material y generamos valor para toda la cadena de distribución.</p>
+    </div>
+    <div class="benefit-card">
+      <span class="benefit-icon">⚡</span>
+      <div class="benefit-title">IA para escalar</div>
+      <p class="benefit-desc">La solución de IA en desarrollo permitirá generar clips para cientos de SKUs sin producción física, cubriendo el catálogo largo tail que nunca llegaría a un shooting presencial.</p>
+    </div>
+    <div class="benefit-card">
+      <span class="benefit-icon">🏆</span>
+      <div class="benefit-title">Material de marca premium</div>
+      <p class="benefit-desc">Los clips se graban en los showrooms oficiales con equipo profesional. El nivel de producción eleva la percepción del producto y refuerza la identidad de la marca en el canal.</p>
+    </div>
+    <div class="benefit-card">
+      <span class="benefit-icon">🔄</span>
+      <div class="benefit-title">Modelo replicable</div>
+      <p class="benefit-desc">El esquema funciona para cualquier marca del canal: importadores de motopartes, terminales, equipamiento, indumentaria. El modelo ya está probado y se puede escalar a nuevas categorías.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">
+    CLIPS — MERCADOLIBRE · ESTRATEGIA DE CONTENIDO<br>
+    JUNIO 2026
+  </div>
+  <div class="footer-right">
+    TRACK 1 ACTIVO · TRACK 2 EN DESARROLLO<br>
+    CONFIDENCIAL
+  </div>
+</div>
+
+</body>
+</html>
